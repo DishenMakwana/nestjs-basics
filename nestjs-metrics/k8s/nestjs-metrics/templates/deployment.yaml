@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nestjs-metrics
+  name: nestjs-metrics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nestjs-metrics
+  template:
+    metadata:
+      labels:
+        app: nestjs-metrics
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '3000'
+        prometheus.io/path: '/metrics'
+    spec:
+      containers:
+        - image: dishenmakwana/nestjs-metrics
+          name: nestjs-metrics
+          env:
+            - name: FIBONACCI
+              value: '1000'
+          ports:
+            - containerPort: 3000
